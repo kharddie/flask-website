@@ -2,6 +2,8 @@ import os
 
 from flask import Flask
 
+from flask_caching import Cache
+
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True)
@@ -10,6 +12,8 @@ def create_app(test_config=None):
         SECRET_KEY="dev",
         # store the database in the instance folder
         DATABASE=os.path.join(app.instance_path, "flask_website.sqlite"),
+        DEBUG=True,
+        CACHE_DEFAULT_TIMEOUT= 50
     )
 
     if test_config is None:
