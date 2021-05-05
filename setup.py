@@ -8,5 +8,11 @@ setup(
     zip_safe=False,
     install_requires=[
         'flask',
+        'python-memcached',
+        'Flask-Caching',
+        'pylibmc',
+        'livereload',
+        'asyncio-3.4.3',
+        'cachelib'
     ],
 )

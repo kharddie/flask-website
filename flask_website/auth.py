@@ -13,6 +13,7 @@ from werkzeug.security import generate_password_hash
 
 from flask_website.db import get_db
 
+
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 
@@ -44,6 +45,7 @@ def load_logged_in_user():
 
 
 @bp.route("/register", methods=("GET", "POST"))
+
 def register():
     """Register a new user.
 
