@@ -1,0 +1,53 @@
+{% macro display_flash_messages() %}
+  {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <ul class="fa-ul">
+       {% for category, message in messages %}
+      <li class="big text-{{category if category else 'danger'}}" ><i class="fa-li fa fa-times-circle"></i>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+{% endmacro %}
+
+
+
+
+form.username, 
+"Username", 
+"yes", 
+"We'll never share your email with anyone else",  
+*("form-control", "form-control-lg"), 
+autocomplete = "off", autofocus = "true" 
+
+
+{% macro display_fields(field_name, placeholder_value, is_help_text, help_text) %}
+
+   {% set _class = ' '.join(varargs) %}
+    <div class="form-group {{'has-success has-feedback' if placeholder_value == False }}">
+        {% if placeholder_value  %}
+              {{ field_name.label }}
+        {% endif %} 
+        {{ field_name(class= _class, placeholder=placeholder_value|capitalize, **kwargs) }}
+        {% if placeholder_value == False %}
+              {{ field_name.label }}
+        {% endif %} 
+
+        {# ----Error reporting #}
+        {% if field_name.errors %}
+           <ul class=errors>
+               {% for error in field_name.errors %}
+                    <li>{{ error }}</li>
+               {% endfor %}
+           </ul>
+        {% endif %}
+
+        {% if is_help_text %}
+            {% if help_text %}
+              <small id="username-help" class="form-text text-muted">{{ help_text }}</small>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+

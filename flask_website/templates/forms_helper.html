@@ -1,0 +1,9 @@
+{% macro display_input_field(form) %}
+<div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" class="form-control form-control-lg" name="username" id="username" required aria-describedby="username-help" />
+    <small id="username-help" class="form-text text-muted">
+        We'll never share your email with anyone else.
+        </small>
+</div>
+{% endmacro %}

@@ -12,7 +12,8 @@ setup(
         'Flask-Caching',
         'pylibmc',
         'livereload',
-        'asyncio-3.4.3',
-        'cachelib'
+        'asyncio',
+        'cachelib',
+        'Flask-WTF'
     ],
 )

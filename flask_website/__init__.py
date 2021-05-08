@@ -4,9 +4,7 @@ import pdb;
 
 from flask import Flask
 from flask.globals import request 
-from flask_caching import Cache
 
-cache = Cache()
 
 #pdb.set_trace()
 
@@ -16,7 +14,6 @@ def create_app(test_config=None):
 
     app = Flask(__name__, instance_relative_config=True)
 
-    #app.jinja_env.auto_reload = True
     app.config.from_mapping(
         # a default secret that should be overridden by instance config
         SECRET_KEY = 'xbfu\xdeZn\x94\x8eO\xf2\x13YT\xa1\xca\x1e\x89' , 
@@ -57,14 +54,11 @@ def create_app(test_config=None):
 
     #A number of packages provide an init_app() method. It's a way of constructing an instance of the particular package, then letting it know about the Flask instance (e.g., so that configuration details can be copied)
     db.init_app(app)
-    cache.init_app(app)
-    #cache.clear()
 
-    # apply the blueprints to the
-    # app
     from flask_website import auth, blog
 
-    pdb.set_trace()
+    #pdb.set_trace()
+    
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
