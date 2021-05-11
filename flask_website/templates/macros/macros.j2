@@ -10,30 +10,17 @@
   {% endwith %}
 {% endmacro %}
 
-
-
-
-form.username, 
-"Username", 
-"yes", 
-"We'll never share your email with anyone else",  
-*("form-control", "form-control-lg"), 
-autocomplete = "off", autofocus = "true" 
-
-
 {% macro display_fields(field_name, placeholder_value, is_help_text, help_text) %}
-
    {% set _class = ' '.join(varargs) %}
-    <div class="form-group {{'has-success has-feedback' if placeholder_value == False }}">
+    <div class="form-group {% if placeholder_value == False %}form-check{% endif %} ">
         {% if placeholder_value  %}
-              {{ field_name.label }}
+              {{ field_name.label }}  
         {% endif %} 
         {{ field_name(class= _class, placeholder=placeholder_value|capitalize, **kwargs) }}
         {% if placeholder_value == False %}
               {{ field_name.label }}
         {% endif %} 
-
-        {# ----Error reporting #}
+        {# ----Error reporting---- #}
         {% if field_name.errors %}
            <ul class=errors>
                {% for error in field_name.errors %}
@@ -41,7 +28,6 @@ autocomplete = "off", autofocus = "true"
                {% endfor %}
            </ul>
         {% endif %}
-
         {% if is_help_text %}
             {% if help_text %}
               <small id="username-help" class="form-text text-muted">{{ help_text }}</small>
@@ -50,4 +36,6 @@ autocomplete = "off", autofocus = "true"
     </div>
 {% endmacro %}
 
-
+{% macro is_not_text_input(inputType) %}
+    {% if inputType == active_page %} xxxxx {% endif %}
+{% endmacro %}

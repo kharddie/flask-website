@@ -1,17 +1,24 @@
-{% extends 'base.html' %} {% block header %}
-<h1>{% block title %}Registerr{% endblock %}</h1>
-{% endblock %} {% block content %}
+{% extends 'base.html' %} 
+
+{% block header %}
+    <h1>{% block title %} Registerr {% endblock %}</h1>
+{% endblock %} 
+
+{% block content %}
+{% from './macros/macros.j2' import display_fields %}
 
 <form method="post">
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" class="form-control form-control-lg" name="username" id="username" required aria-describedby="username-help">
-        <small id="username-help" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control form-control-lg" name="password" id="password" required>
-    </div>
+    {{ display_fields(form.username, "Username", True, "We'll never share your email with anyone else",  "form-control", "form-control-lg", autocomplete = "off", autofocus = "true" ) }}
+    {{ display_fields(form.email, "Email", False, "We'll never share your email with anyone else",  "form-control", "form-control-lg", autocomplete = "off", autofocus = "true" ) }}
+    {{ display_fields(form.password, "password", False, " ",  "form-control", "form-control-lg") }}
+    {{ display_fields(form.password_repeat, "Repeat Password", False, " ",  "form-control", "form-control-lg") }}
+    {{ display_fields(form.accept_terms, False, False, " ",  "form-check-input" ) }}
     <button type="submit" class="btn btn-primary" value="Register">Register</button>
+    <div>
+        {{ form.csrf_token }} {# Renders any hidden fields, including the CSRF #}
+    </div>
 </form>
+
 {% endblock %}
+
+

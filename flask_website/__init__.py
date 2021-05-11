@@ -1,9 +1,13 @@
 import os
 import warnings 
 import pdb; 
+import datetime
 
 from flask import Flask
 from flask.globals import request 
+from flask import render_template
+
+from flask_website.context_processor import context_processor
 
 
 #pdb.set_trace()
@@ -59,14 +63,49 @@ def create_app(test_config=None):
 
     #pdb.set_trace()
     
-
+    # Register routable components
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
+
+    
 
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with
     # app.route, while giving the blog blueprint a url_prefix, but for
     # the tutorial the blog will be the main index
     app.add_url_rule("/", endpoint="index")
+
+
+    app.context_processor(context_processor)
+
+
+
+
+    """
+
+        @app.errorhandler(404)
+    def page_not_found():
+        return render_template("templates/404.html")
+
+        
+    @app.errorhandler(500)
+    def page_not_found():
+        return render_template("templates/404.html")
+    @bp.context_processor
+    def template_context():
+    '''Return a dictionary of key-value pairs,
+       which will be available to all views in the context
+
+    if 'username' in session:
+        username = session['username']
+
+    return {'version':88, 'username':username}    
+    """
+
+
+
+
+    #ctx = app.app_context()
+    #print(ctx)
 
     return app
