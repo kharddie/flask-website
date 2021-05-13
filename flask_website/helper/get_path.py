@@ -15,3 +15,11 @@ filename_path = get_path(filename)
 print(f'path = {filename_path}')
 
 
+import re
+
+def remove_punctuation(word):
+    return re.sub(r'[!?.:;,"()-]', "", word)
+
+   # remove_punctuation("...Python!")
+
+

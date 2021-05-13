@@ -1,9 +1,11 @@
 import functools
+from os import wait
 import time
 import datetime 
 import pdb
 import sys
 import pprint
+import logging
 
 from flask import Blueprint 
 from flask import flash
@@ -20,12 +22,18 @@ from werkzeug.security import generate_password_hash
 from flask_website.db import get_db
 from flask_website.db import execute_read_query
 
+
 from flask_website.forms.login_form import LoginForm
 from flask_website.forms.register_form import RegisterForm
-
-execute_read_query
+from flask_website.helper.constants import SELECT_ALL_FROM_USER
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
+
+logging.debug('This is a debug message')
+logging.info('This is an info message')
+logging.warning('This is a warning message')
+logging.error('This is an error message')
+logging.critical('This is a critical message')
 
 def login_required(view):
     """View decorator that redirects anonymous users to the login page."""
@@ -54,7 +62,7 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = (
-            get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
+            get_db().execute( "{} WHERE id = {}".format(SELECT_ALL_FROM_USER,user_id)).fetchone()
         )
 
         print('::: Request for user ====  g.user = ',{g.user})
@@ -116,12 +124,8 @@ def login():
         username = request.form['username']
         password = request.form['password']
         remember_me = request.form.get('remember_me')
-        #remember = True if request.form.get('remember') else False
         is_remember = bool(remember_me )
         print('::: request.form[remember_me]   ---->', is_remember)
-
-
-        #pdb.set_trace
 
         db = get_db()
         error = None
@@ -138,7 +142,6 @@ def login():
             session.clear()
             session['user_id'] = user['id']
             session['remember'] = is_remember
-
             return redirect(url_for('index'))
 
         flash(error)
@@ -146,48 +149,39 @@ def login():
     return render_template("auth/login.html",form = _form)
 
 @bp.route("/logout")
+
 def logout():
     """Clear the current session, including the stored user id."""
     session.clear()
     return redirect(url_for("index"))
 
-
+@login_required
 @bp.route("/users")
 def users():
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:::::::::::::::::::::::::::::ÍÍ  INSIDE USER")
     db = get_db()
+
+    user_table = db.execute("PRAGMA table_info(user)").fetchall()
+    print("----------------------------------------xxxxxxxxx-----------------------------------------------------")
+    print(tuple(user_table))
+    print("----------------------------------------xxxxxxxxx--------------------------------------------------------")
+
+    for t in user_table:
+        print(t[3])
+
+
+
+
     print()
     query = "SELECT * FROM user"
     users = execute_read_query(db, query)
-    #print("rows= cursor.fetchall()")
+    print("rows= cursor.fetchall()")
     
-    #print(type(users)) ## <class 'list'>
-    print(users)
-    #print(users[0])
-    #print(users[1])
-    #print(users[2])
-    pdb.set_trace()
-    print("------------------------------------------------------")
-
-    #print("{:<3} ~~~~~~{:<10} ~~~~~~~ {:<40}".format(str(users[0]), str(users[1]), str(users[2])))
-
-    lsts = [(1, 'xx', 'xx@xx.com', 'pbkdfbb4'),          (2, 'yy', 'yy@yy.com', 'pbkd769af'),              (3, 'zz', 'zz@zz.com', 'pbkdf252cf78e')]
-    lst = [(1,1), (2,1), (4,2)]
-
-    print(
-        map(
-            lambda x: str(x[0]) + ' ' + str(x[1]) + ' ' + str(x[2]), lsts)
-        )
-
-    #pdb.set_trace
+    print("----------------------------------------xxxxzzz dddddddd xxxxx-----------------------------------------------------")
+    rtt = [(str(a),str(b),str(c),str(d)) for i,  (a,b,c,*d) in enumerate(users)]
+    pprint.pprint(rtt)
+    print("----------------------------------------xxxx  zaaaaazzz xxxxx-----------------------------------------------------")
+    
     return render_template("auth/admin.html")
    
 
-
-
-
-
-'''
-1 1
-2 1
-4 2
-'''
