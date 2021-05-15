@@ -158,19 +158,21 @@ def logout():
 @login_required
 @bp.route("/users")
 def users():
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:::::::::::::::::::::::::::::ÍÍ  INSIDE USER")
+
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@::::::NSIDE USER::::::@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     db = get_db()
-
-    user_table = db.execute("PRAGMA table_info(user)").fetchall()
+    user_table_query = db.execute("PRAGMA table_info(user)").fetchall()
+    
     print("----------------------------------------xxxxxxxxx-----------------------------------------------------")
-    print(tuple(user_table))
+    #0.print("user_table_query =,", {user_table_query})
+    for t in user_table_query:
+        print(t[1])
+    #pprint.pprint([tuple(row) for row in user_table])
+
+    user_table_header = [ (str(a),str(b),str(c),str(d),str(e),str(f)) for idx, (a,b,c,d,e,f) in enumerate(user_table_query)]
+    pprint.pprint(user_table_header)
+
     print("----------------------------------------xxxxxxxxx--------------------------------------------------------")
-
-    for t in user_table:
-        print(t[3])
-
-
-
 
     print()
     query = "SELECT * FROM user"
@@ -178,10 +180,13 @@ def users():
     print("rows= cursor.fetchall()")
     
     print("----------------------------------------xxxxzzz dddddddd xxxxx-----------------------------------------------------")
-    rtt = [(str(a),str(b),str(c),str(d)) for i,  (a,b,c,*d) in enumerate(users)]
+    rtt = [(str(a),str(b),str(c),str(d),str(e)) for i,  (a,b,c,d,*e) in enumerate(users)]
     pprint.pprint(rtt)
+
+    print("{0:>3} {1:<10} {2:<7}".format((user_table_header[0][1]),(user_table_header[1][1]),(user_table_header[2][1])))
+    print("{0:>3} {1:<10} {2:<7}".format((users[0][1]),(users[1][1]),(users[2][1])))
     print("----------------------------------------xxxx  zaaaaazzz xxxxx-----------------------------------------------------")
     
-    return render_template("auth/admin.html")
+    return render_template("admin/admin.html")
    
 

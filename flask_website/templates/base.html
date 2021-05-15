@@ -14,7 +14,6 @@
      <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
     <meta name="theme-color" content="#563d7c">
 
-
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -32,7 +31,14 @@
         }
     </style>
     <!-- Custom styles for this template -->
-    <!--  <link href="album.css" rel="stylesheet"> -->
+    {% assets "scss_all" %}
+    <link rel=stylesheet lang="scss" type="text/scss"  href="{{ ASSET_URL }}">
+    {% endassets %}
+
+    {% assets "js_all" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
 </head>
 
 <body>
