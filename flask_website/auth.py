@@ -22,7 +22,6 @@ from werkzeug.security import generate_password_hash
 from flask_website.db import get_db
 from flask_website.db import execute_read_query
 
-
 from flask_website.forms.login_form import LoginForm
 from flask_website.forms.register_form import RegisterForm
 from flask_website.helper.constants import SELECT_ALL_FROM_USER
@@ -158,35 +157,30 @@ def logout():
 @login_required
 @bp.route("/users")
 def users():
-
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@::::::NSIDE USER::::::@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     db = get_db()
-    user_table_query = db.execute("PRAGMA table_info(user)").fetchall()
+
+    query = "SELECT name FROM sqlite_master WHERE type IN ('table','view') AND name NOT LIKE 'sqlite_%' ORDER BY 1;"
+    db_tables_querry = [ ''.join(tuple(row)) for row in db.execute(query).fetchall() ]
+    #pdb.set_trace()
+    print(db_tables_querry)
+
+    print("----------------------------------------real deal-----------------------------------------------------")
+    for table in db_tables_querry:
+        db_table_details = {}
+        temp = []
+        print(f"----------------Table = {table} ----------------",)
+        query = f'SELECT * FROM {table}'
+        table_details = execute_read_query(db, query)
+        for data in table_details:
+            print(f'd= {data[1]}')
+            temp.append(data[1])
+
+        db_table_details.update({f'{table}' : temp})
+        temp = []
+    pprint.pprint(db_table_details)
+    print("---------------------------------------end real dealx-----------------------------------------------------")
     
-    print("----------------------------------------xxxxxxxxx-----------------------------------------------------")
-    #0.print("user_table_query =,", {user_table_query})
-    for t in user_table_query:
-        print(t[1])
-    #pprint.pprint([tuple(row) for row in user_table])
-
-    user_table_header = [ (str(a),str(b),str(c),str(d),str(e),str(f)) for idx, (a,b,c,d,e,f) in enumerate(user_table_query)]
-    pprint.pprint(user_table_header)
-
-    print("----------------------------------------xxxxxxxxx--------------------------------------------------------")
-
-    print()
-    query = "SELECT * FROM user"
-    users = execute_read_query(db, query)
-    print("rows= cursor.fetchall()")
-    
-    print("----------------------------------------xxxxzzz dddddddd xxxxx-----------------------------------------------------")
-    rtt = [(str(a),str(b),str(c),str(d),str(e)) for i,  (a,b,c,d,*e) in enumerate(users)]
-    pprint.pprint(rtt)
-
-    print("{0:>3} {1:<10} {2:<7}".format((user_table_header[0][1]),(user_table_header[1][1]),(user_table_header[2][1])))
-    print("{0:>3} {1:<10} {2:<7}".format((users[0][1]),(users[1][1]),(users[2][1])))
-    print("----------------------------------------xxxx  zaaaaazzz xxxxx-----------------------------------------------------")
-    
-    return render_template("admin/admin.html")
+    return render_template("admin/admin.html",temp_var = db_table_details)
    
 

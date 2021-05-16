@@ -44,9 +44,9 @@ def execute_read_query(connection, query):
         # sqlite3 object  == [<sqlite3.Row object at 0x7fcdc2c6e570>, <sqlite3.Row object at 0x7fcdc2c77050>, <sqlite3.Row object at 0x7fcdc2c7
         rows = cursor.fetchall()
         results = [tuple(row) for row in rows]
-
         print(FORMAT_COMMENTS_STRING_HEADER.format(
             ' RESULTS FROM SELECT QUERY '))
+        print(f'>>>>>>>> QUERY={query}')
         print(type(results))
         pprint.pprint(results)
         print(FORMAT_COMMENTS_STRING_HEADER.format(
@@ -56,15 +56,6 @@ def execute_read_query(connection, query):
 
     except Error as e:
         print("The error {},".format(e))
-
-"""
-def convert_tuple_elements_to_str(tuple_el):
-    if type(tuple_el) is tuple:
-        (a, b, c, d) = tuple_el
-        return [str(a), str(b), str(c), str(d)]
-
-    flash(message='{} is not a tuple. its a ,{}'.format(tuple_el, type(tuple)), category='error')
-"""
 
 def close_db(e=None):
     """If this request connected to the database, close the
@@ -98,3 +89,5 @@ def init_app(app):
     """
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+
+

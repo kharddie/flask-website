@@ -1,6 +1,8 @@
+import pdb
 from flask import Blueprint
 from flask import flash
 from flask import g
+
 from flask import redirect
 from flask import render_template
 from flask import request
@@ -9,6 +11,8 @@ from werkzeug.exceptions import abort
 
 from flask_website.auth import login_required
 from flask_website.db import get_db
+
+from flask_website.forms.create_form import CreateForm
 
 
 
@@ -63,6 +67,9 @@ def get_post(id, check_author=True):
 @bp.route("/create", methods=("GET", "POST"))
 @login_required
 def create():
+    _form = CreateForm()
+    title = None
+    body = None
     """Create a new post for the current user."""
     if request.method == "POST":
         title = request.form["title"]
@@ -81,9 +88,10 @@ def create():
                 (title, body, g.user["id"]),
             )
             db.commit()
-            return redirect(url_for({blog_index}))
+            #pdb.set_trace()
+            return redirect(url_for(f'{blog_index}'))
 
-    return render_template("blog/create.html")
+    return render_template("blog/create.html",form = _form, title = title, body = body)
 
 
 @bp.route("/<int:id>/update", methods=("GET", "POST"))
@@ -108,7 +116,7 @@ def update(id):
                 "UPDATE post SET title = ?, body = ? WHERE id = ?", (title, body, id)
             )
             db.commit()
-            return redirect(url_for({blog_index}))
+            return redirect(url_for(f'{blog_index}'))
 
     return render_template("blog/update.html", post=post)
 
@@ -125,4 +133,4 @@ def delete(id):
     db = get_db()
     db.execute("DELETE FROM post WHERE id = ?", (id,))
     db.commit()
-    return redirect(url_for({blog_index}))
+    return redirect(url_for(f'{blog_index}'))

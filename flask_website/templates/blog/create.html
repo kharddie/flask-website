@@ -1,19 +1,19 @@
+
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}New Post{% endblock %}</h1>
-{% endblock %}
+    <h1>{% block title %} New Post{% endblock %}</h1>
+{% endblock %} 
 
 {% block content %}
+{% from './macros/macros.j2' import display_fields %}
 <form method="post">
-  <div class="form-group">
-    <label for="title">Title</label>
-    <input type="text" class="form-control form-control-lg"  name="title" id="title" value="{{ request.form['title'] }}"  required aria-describedby="title-help">
-  </div>
-   <div class="form-group">
-    <label for="body">Example textarea</label>
-    <textarea class="form-control" id="body" rows="3">{{ request.form['body'] }}</textarea>
-  </div>
-<button type="submit" class="btn btn-primary" value="Save">Save</button>
+    {{ display_fields(form.title, "Title", False, False,  "form-control", "form-control-lg", autocomplete = "off", autofocus = "true" ) }}
+    {{ display_fields(form.body, "Body", False, False,  "form-control", "form-control-lg", autocomplete = "off", autofocus = "true" ) }}
+
+    <button type="submit" class="btn btn-primary" value="Log In">Save</button>
+    <div>
+        {{ form.csrf_token }} {# Renders any hidden fields, including the CSRF #}
+    </div>
 </form>
 {% endblock %}
