@@ -99,7 +99,7 @@ def get_database_table_details():
 
         print(f"table_name: {t} ,col_names: {table_col_names} ,table_rows: {table_rows}")
 
-        db_details[i] = temp_dict
+        db_details[str(i)] = temp_dict
         temp_dict= {}
 
     return db_details

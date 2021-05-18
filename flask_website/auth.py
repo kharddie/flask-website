@@ -171,17 +171,17 @@ def logout():
 @login_required
 @bp.route("/users")
 def users():
-    _data = get_database_table_details()
-    print(f'len(_data)={len(_data)} === {_data}')
+    _tables = get_database_table_details()
+    print(f'len(_tables)={len(_tables)} === {_tables}')
 
-    while len(_data) < 1:
+    while len(_tables) < 1:
         print('Create JSON')
-        _data_json = json.dumps(
-        _data, indent=4, separators=(", ", ": "), default = str)
+        
+    _data_json = json.dumps(
+        _tables, indent=4, separators=(", ", ": "), default = str)
 
         #pprint.pprint(_data_json)
-        print(_data_json)
-
+    print(_data_json)
     
 
-    return render_template("admin/admin.html", data = _data)
+    return render_template("admin/admin.html", tables = _tables)
