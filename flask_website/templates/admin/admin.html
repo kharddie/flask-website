@@ -1,43 +1,95 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block header %}
+<h1>{% block title %}Admin{% endblock %}</h1>
+{% endblock %} {% block content %}
 
-{% block header %}
-  <h1>{% block title %}Admin{% endblock %}</h1>
-{% endblock %}
 
-{% block content %}
+<div>&nbsp;</div>
+<div>{{ data}}</div> 
 
-<div>{{ temp_var }}</div>
 
-<div class="table-responsive">
-  <table class="table table table-striped table-hover">
-    <thead>
-      <tr>
-        <th scope="col">######</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
-    </tbody>
-  </table>
+
+<div> table_header = data[0]['table_name'] </div> 
+
+
+
+
+{% if data != None %} 
+
+
+{% for table_name in data %}
+{% endfor %} 
+
+<div class="row">
+
+
+
+<div>{{ data[0]['table_name'] }}</div>
+
+
+
+
+{% if data | length > 1 %}
+
+{% for table in data %}
+
+    <div class="col">
+
+    <div>{{ table_header }}</div>
+        <div class="table-responsive">
+            <table class="table table table-striped table-hover">
+                <thead>
+                    <tr>
+{% for header_value in   data %}{%  endfor %}
+                        <th scope="col">######</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endfor %}
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 
+
+
+
+
+
+
+
+{% endif %}
+
+
+
+
 {% endblock %}
+
+
+

@@ -124,7 +124,7 @@
         <section class="jumbotron text-center">
             <div class="container">
                 <h1>{% block header %}{% endblock %}</h1>
-                <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.
+                <p class="lead text-muted">Ssssssomething short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.
                 </p>
                 <p>
                     <a href="#" class="btn btn-primary my-2">Main call to action</a>
@@ -148,16 +148,16 @@
                 </div>
                 <section class="content">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col">
                             {% for message in get_flashed_messages() %}
-                            <div class="flash">{{ message }}</div>
+                            <div class="flash">{{ message }}<flash></div>
                             {% endfor %}
                         </div>
                     </div>
                 </section>
                 <section class="content">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col">
                             {% block content %}{% endblock %}
                         </div>
                     </div>
