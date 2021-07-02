@@ -1,6 +1,9 @@
-{% extends 'base.html' %} {% block header %}
-<h1>{% block title %}Admin{% endblock %}</h1>
+{% extends 'base.html' %} 
+
+{% block header %}
+    <h1>{% block title %}Admin{% endblock %}</h1>
 {% endblock %} 
+
 {% block content %}t
     {% if tables != None %} 
         <div class="row row-cols-auto">

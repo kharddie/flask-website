@@ -48,12 +48,13 @@ def create_app(test_config=None):
     #A number of packages provide an init_app() method. It's a way of constructing an instance of the particular package, then letting it know about the Flask instance (e.g., so that configuration details can be copied)
     db.init_app(app)
 
-    from flask_website import auth, blog
+    from flask_website import auth, blog, admin
     #pdb.set_trace()
     
     # Register routable components
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
+    app.register_blueprint(admin.bp)
 
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with

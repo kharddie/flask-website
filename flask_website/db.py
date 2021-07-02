@@ -70,9 +70,9 @@ def get_database_table_details():
 
         db_tables = [''.join(tuple(row)) for row in db.execute(q).fetchall()]
         #pdb.set_trace()
-        cursor = db.cursor()
-        db_details = {}
-        temp_dict = {}
+        cursor = db.cursor()  # == false
+        db_details = {}  # == false
+        temp_dict = {}  # == false
 
     except Error as e:
         err = f'The error {e},'
